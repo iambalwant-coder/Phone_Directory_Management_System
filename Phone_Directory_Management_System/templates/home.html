@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color: #8E3E63;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #FF7F3E;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+            justify-items: stretch;
+        }
+
+        .card {
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.02);
+        }
+
+        .info {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .info h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .info p {
+            margin: 2px 0;
+            color: #666;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            text-align: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .button.add {
+            background-color: #28a745;
+        }
+
+        .button.edit {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .button.delete {
+            background-color: #dc3545;
+        }
+
+        .button.info {
+            background-color: #007BFF;
+        }
+
+        .button.add:hover {
+            background-color: #218838;
+        }
+
+        .button.edit:hover {
+            background-color: #e0a800;
+        }
+
+        .button.delete:hover {
+            background-color: #c82333;
+        }
+
+        .button.info:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert .icon {
+            font-size: 24px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Home Contacts</h1>
+        <div class="buttons">
+            <a href="{% url 'add_contact' %}" class="button add"><i class="fas fa-plus"></i> Add Contact</a>
+            <a href="{% url 'trash' %}" class="button delete"><i class="fas fa-trash"></i> Delete</a>
+            <a href="{% url 'view_all' %}" class="button edit"><i class="fas fa-edit"></i> Edit</a>
+            <a href="/" class="button info"><i class="fas fa-users"></i> View All</a>
+            <!-- Other action buttons can be added here -->
+        </div>
+    </header>
+
+    <div class="container">
+        {% if messages %}
+            <div class="alert">
+                <i class="fas fa-check-circle icon"></i>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h2>Contact List</h2>
+
+        <div class="grid-container">
+            {% if contacts %}
+                {% for contact in contacts %}
+                    <div class="card">
+                        <div class="info">
+                            <h2>{{ contact.first_name }} {{ contact.last_name }}</h2>
+                            <p><i class="fas fa-phone"></i> Phone: {{ contact.phone_number }}</p>
+                            <p><i class="fas fa-envelope"></i> Email: {{ contact.email }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No contacts found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Contact Manager. All rights reserved.</p>
+    </footer>
+</body>
+</html>
